@@ -105,6 +105,12 @@ public class Main {
             System.out.println("Duplicate member rejected: " + e.getMessage());
         }
 
+        try {
+            new ProjectGroup(student, "", "", project);
+            System.out.println("FAIL: Empty title and supervisor accepted");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Empty title and supervisor rejected: " + e.getMessage());
+        }
 
         try {
             new ProjectGroup(student, "Another group", "Adam", project);

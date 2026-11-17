@@ -8,14 +8,18 @@ public class ProjectGroup {
 
     public ProjectGroup(Student student, String title,
                         String supervisor, Project project) {
+    String problems = "";
+
         if (title == null || title.trim().isEmpty()) {
-            throw new IllegalArgumentException("Title must not be empty");
+            problems += "Title must not be empty. ";
         }
 
         if (supervisor == null || supervisor.trim().isEmpty()) {
-            throw new IllegalArgumentException(
-                    "Supervisor must not be empty"
-            );
+          problems += "Supervisor must not be empty. ";
+        }
+
+        if (!problems.isEmpty()){
+            throw new IllegalArgumentException(problems);
         }
 
         if (project == null) {

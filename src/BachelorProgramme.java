@@ -37,20 +37,20 @@ public class BachelorProgramme {
     public Student getStudent(){
         return student;
     }
-    public String completionStatus(StudyProgram basic, StudyProgram computerScince, StudyProgram informatics) {
-        if (basic == null || computerScince == null || informatics == null) {
+    public String completionStatus(StudyProgram basic, StudyProgram subjectModule1, StudyProgram subjectModule2) {
+        if (basic == null || subjectModule1 == null || subjectModule2 == null) {
             throw new IllegalArgumentException("Study programmes must not be null");
         }
 
         if (!"Basic Studies".equals(basic.getType())
-                || !"Subject Module".equals(computerScince.getType())
-                || !"Subject Module".equals(informatics.getType())) {
+                || !"Subject Module".equals(subjectModule1.getType())
+                || !"Subject Module".equals(subjectModule2.getType())) {
             throw new IllegalArgumentException(
                     "Expected one basic studies programme and two subject modules"
             );
         }
 
-        if (computerScince == informatics || computerScince.getName().equals(informatics.getName())) {
+        if (subjectModule1 == subjectModule2 || subjectModule1.getName().equals(subjectModule2.getName())) {
             throw new IllegalArgumentException(
                     "The two subject modules must be different"
             );
@@ -63,18 +63,18 @@ public class BachelorProgramme {
             problems += "Basic studies must contain 110 ECTS.\n";
         }
 
-        if (getEctsFor(computerScince) != 35) {
-            problems += computerScince.getName() + " must contain 35 ECTS.\n";
+        if (getEctsFor(subjectModule1) != 35) {
+            problems += subjectModule1.getName() + " must contain 35 ECTS.\n";
         }
 
-        if (getEctsFor(informatics) != 35) {
-            problems += informatics.getName() + " must contain 35 ECTS.\n";
+        if (getEctsFor(subjectModule2) != 35) {
+            problems += subjectModule2.getName() + " must contain 35 ECTS.\n";
         }
 
         for (StudyActivity activity : activities) {
             StudyProgram part = activity.getProgramPart();
 
-                if (part != basic && part != computerScince && part != informatics) {
+                if (part != basic && part != subjectModule1 && part != subjectModule2) {
                     problems += "Activity belongs to another programme part: " + activity.getName() + "\n";
                 }
 
