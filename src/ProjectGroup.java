@@ -5,20 +5,21 @@ public class ProjectGroup {
     private String supervisor;
     private Project project;
     private ArrayList<Student> members;
+    private static ArrayList<ProjectGroup> allGroups = new ArrayList<>();   // NEW: shared by all groups
 
     public ProjectGroup(Student student, String title,
                         String supervisor, Project project) {
-    String problems = "";
+        String problems = "";
 
         if (title == null || title.trim().isEmpty()) {
             problems += "Title must not be empty. ";
         }
 
         if (supervisor == null || supervisor.trim().isEmpty()) {
-          problems += "Supervisor must not be empty. ";
+            problems += "Supervisor must not be empty. ";
         }
 
-        if (!problems.isEmpty()){
+        if (!problems.isEmpty()) {
             throw new IllegalArgumentException(problems);
         }
 
@@ -32,10 +33,34 @@ public class ProjectGroup {
         this.members = new ArrayList<>();
 
         addMember(student);
+        allGroups.add(this);                                                 // NEW: register the group
+    }
+
+    public static boolean hasGroup(Student student, Project project) {
+        for (ProjectGroup group : allGroups) {
+            if (group.project == project && group.members.contains(student)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void addMember(Student student) {
-        project.registerGroupMember(student);
+        if (student == null) {
+            throw new IllegalArgumentException("Student must not be null");
+        }
+
+        if (student.getProgramme() == null ||
+                !student.getProgramme().hasActivity(project)) {
+            throw new IllegalArgumentException(
+                    "Student must be registered for the project");
+        }
+
+        if (hasGroup(student, project)) {
+            throw new IllegalArgumentException(
+                    "Student already belongs to a group for this project");
+        }
+
         members.add(student);
     }
 

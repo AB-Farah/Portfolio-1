@@ -81,7 +81,7 @@ public class BachelorProgramme {
                 if (activity instanceof Project) {
                     Project project = (Project) activity;
 
-                if (!project.hasGroup(student)) {
+                if (!ProjectGroup.hasGroup(student, project)) {
                     problems += "Missing group for: " + project.getName() + "\n";
                 }
             }
